@@ -9,10 +9,14 @@ export default [
   eslintConfigPrettier,
   eslintPluginUnicorn.configs["flat/recommended"],
   {
-			rules: {
-				'unicorn/better-regex': 'error',
-        'unicorn/consistent-destructuring': 'error',
-        "unicorn/no-unused-properties": 'error'
-			},
-		},
+    rules: {
+      "unicorn/better-regex": "error",
+      "unicorn/consistent-destructuring": "error",
+      "unicorn/no-unused-properties": "error",
+
+      // Simple imports sort
+      "simple-import-sort/imports": "error",
+      "simple-import-sort/exports": "error",
+    },
+  },
 ];

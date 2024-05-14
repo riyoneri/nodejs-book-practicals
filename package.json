@@ -4,7 +4,9 @@
   "description": "This is nodejs book course practicals",
   "main": "index.js",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky"
+  },
   "keywords": [],
   "author": "Lionel Kaneza",
   "license": "ISC",
@@ -14,6 +16,7 @@
     "eslint": "^9.2.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-unicorn": "^53.0.0",
+    "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "prettier-plugin-organize-imports": "^3.2.4"

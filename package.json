@@ -14,7 +14,14 @@
     "eslint": "^9.2.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-unicorn": "^53.0.0",
+    "lint-staged": "^15.2.2",
     "prettier": "3.2.5",
     "prettier-plugin-organize-imports": "^3.2.4"
+  },
+  "lint-staged": {
+    "*.{ts,json,md,mjs,js}": [
+      "eslint --quiet --fix",
+      "prettier -w"
+    ]
   }
 }

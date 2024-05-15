@@ -2,7 +2,6 @@ import js from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
-
 export default [
   {
     plugins: { unicorn: eslintPluginUnicorn },
@@ -16,7 +15,12 @@ export default [
       "no-var": "error",
       "no-unused-vars": [
         "error",
-        { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
+        {
+          vars: "all",
+          args: "all",
+          varsIgnorePattern: "^_",
+          argsIgnorePattern: "^_",
+        },
       ],
       "prefer-const": "error",
     },

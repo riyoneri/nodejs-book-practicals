@@ -1,13 +1,12 @@
-import js from "@eslint/js";
-import eslintConfigPrettier from "eslint-config-prettier";
+import pluginJs from "@eslint/js";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
+import globals from "globals";
 
 export default [
   {
-    plugins: { unicorn: eslintPluginUnicorn },
+    languageOptions: { globals: globals.browser },
     rules: {
-      ...js.configs.recommended.rules,
-      "unicorn/no-unused-properties": "error",
       "no-console": "error",
       "no-self-compare": "error",
       "no-useless-assignment": "error",
@@ -25,5 +24,7 @@ export default [
       "prefer-const": "error",
     },
   },
-  eslintConfigPrettier,
+  eslintPluginUnicorn.configs["flat/recommended"],
+  pluginJs.configs.recommended,
+  eslintPluginPrettierRecommended,
 ];

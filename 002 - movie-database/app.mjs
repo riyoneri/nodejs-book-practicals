@@ -1,8 +1,11 @@
 import express from "express";
+import morgan from "morgan";
 
 import { router as movieRouter } from "./movie/index.mjs";
 
 const app = express();
+
+app.use(morgan("combined", { immediate: true }));
 
 app.use("/movie", movieRouter);
 

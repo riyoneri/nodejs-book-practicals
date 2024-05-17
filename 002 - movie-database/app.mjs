@@ -8,7 +8,7 @@ const app = express();
 const accessLogStream = createWriteStream("access.log", { flags: "a" });
 
 app.use(morgan("dev", { immediate: true, stream: accessLogStream }));
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use("/movie", movieRouter);
 

@@ -7,7 +7,8 @@ import { router as movieRouter } from "./movie/index.mjs";
 const app = express();
 const accessLogStream = createWriteStream("access.log", { flags: "a" });
 
-app.use(morgan("combined", { immediate: true, stream: accessLogStream }));
+app.use(morgan("dev", { immediate: true, stream: accessLogStream }));
+app.use(express.urlencoded({ extended: false }));
 
 app.use("/movie", movieRouter);
 

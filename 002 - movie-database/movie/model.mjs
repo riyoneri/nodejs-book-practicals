@@ -6,6 +6,9 @@ let data = [
 
 export const getAll = () => Promise.resolve(data);
 
+export const get = (id) =>
+  Promise.resolve(data.find((movie) => movie.id === id));
+
 export const remove = (id) => {
   data = data.filter((movie) => movie.id !== id);
 

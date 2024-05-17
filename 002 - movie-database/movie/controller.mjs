@@ -29,7 +29,7 @@ export const saveAction = async (request, response) => {
     year: request.body.year,
   };
 
-  await save(movie);
+  save(movie);
 
   response.redirect(request.baseUrl);
 };

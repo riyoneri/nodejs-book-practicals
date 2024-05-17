@@ -1,4 +1,4 @@
-import { get, getAll, remove } from "./model.mjs";
+import { get, getAll, remove, save } from "./model.mjs";
 
 export const listAction = async (_request, response) => {
   response.send(await getAll());
@@ -20,4 +20,16 @@ export const formAction = async (request, response) => {
   }
 
   response.send(movie);
+};
+
+export const saveAction = async (request, response) => {
+  const movie = {
+    id: request.body.id,
+    title: request.body.title,
+    year: request.body.year,
+  };
+
+  await save(movie);
+
+  response.redirect(request.baseUrl);
 };

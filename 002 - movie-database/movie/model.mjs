@@ -14,3 +14,25 @@ export const remove = (id) => {
 
   return Promise.resolve();
 };
+
+const getNextId = () => Math.max(...data.map((movie) => movie.id)) + 1;
+
+const insert = (movie) => {
+  movie.id = getNextId();
+
+  data.push(movie);
+};
+
+const update = (movie) => {
+  movie.id = +movie.id;
+  const index = data.findIndex((item) => item.id === movie.id);
+
+  data[index] = movie;
+};
+
+export const save = (movie) => {
+  if (movie.id) update(movie);
+  else insert(movie);
+
+  Promise.resolve();
+};

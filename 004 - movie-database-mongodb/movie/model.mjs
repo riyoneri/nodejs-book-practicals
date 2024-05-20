@@ -1,17 +1,34 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 mongoose.connect("mongodb://localhost:27017/moviedb");
 
-const Movie = mongoose.model("Movie", { title: String, year: Number });
+const Movie = mongoose.model(
+  "Movie",
+  new Schema({ title: String, year: Number }),
+);
 
 export const getAll = async () => Movie.find({});
 
 export const get = async (id) => Movie.findById(id);
 
-export const insert = async (_movie) => {};
+export const insert = async (movie) => {
+  const movieData = new Movie({ title: movie.title, year: movie.year });
 
-export const update = async (_movie) => {};
+  return await movieData.save();
+};
 
-export const remove = async (_id) => {};
+export const update = async (movie) => {
+  await Movie.findByIdAndUpdate(movie.id, {
+    title: movie.title,
+    year: movie.year,
+  });
 
-export const save = (_movie) => {};
+  return movie;
+};
+
+export const remove = async (id) => Movie.findByIdAndDelete(id);
+
+export const save = (movie) => {
+  if (movie._id) return update(movie);
+  insert(movie);
+};

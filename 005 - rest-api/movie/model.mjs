@@ -14,3 +14,8 @@ const Movie = mongoose.model(
 
 export const getAll = async (userId) =>
   Movie.find({ $or: [{ userId }, { public: true }] });
+
+export const get = async (movieId, userId) =>
+  Movie.findOne({
+    $and: [{ _id: movieId }, { $or: [{ public: true }, { userId }] }],
+  });

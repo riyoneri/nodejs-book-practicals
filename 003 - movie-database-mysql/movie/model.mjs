@@ -24,6 +24,16 @@ const insert = async (movie) => {
   return { ...movie, id: result.insertId };
 };
 
+const update = async (movie) => {
+  await connection.query("UPDATE Movies SET title = ?, year = ? WHERE id = ?", [
+    movie.title,
+    movie.year,
+    movie.id,
+  ]);
+
+  return movie;
+};
+
 export const get = async (id) => {
   const [data] = await connection.query("SELECT * from Movies where id = ?", [
     id,
@@ -31,7 +41,8 @@ export const get = async (id) => {
 
   return data.pop();
 };
+
 export const remove = (_id) => {};
 export const save = (movie) => {
-  if (!movie.id) return insert(movie);
+  return movie.id ? update(movie) : insert(movie);
 };

@@ -1,5 +1,5 @@
 import pluginJs from "@eslint/js";
-import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import eslintConfigPrettier from "eslint-config-prettier";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 import globals from "globals";
 
@@ -26,5 +26,5 @@ export default [
   },
   eslintPluginUnicorn.configs["flat/recommended"],
   pluginJs.configs.recommended,
-  eslintPluginPrettierRecommended,
+  eslintConfigPrettier,
 ];

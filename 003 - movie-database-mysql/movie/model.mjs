@@ -42,7 +42,11 @@ export const get = async (id) => {
   return data.pop();
 };
 
-export const remove = (_id) => {};
+export const remove = async (id) => {
+  await connection.query("DELETE FROM Movies where id = ?", [id]);
+
+  return;
+};
 export const save = (movie) => {
   return movie.id ? update(movie) : insert(movie);
 };

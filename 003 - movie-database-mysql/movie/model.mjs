@@ -24,7 +24,13 @@ const insert = async (movie) => {
   return { ...movie, id: result.insertId };
 };
 
-export const get = (_id) => {};
+export const get = async (id) => {
+  const [data] = await connection.query("SELECT * from Movies where id = ?", [
+    id,
+  ]);
+
+  return data.pop();
+};
 export const remove = (_id) => {};
 export const save = (movie) => {
   if (!movie.id) return insert(movie);

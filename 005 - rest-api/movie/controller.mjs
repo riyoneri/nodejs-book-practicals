@@ -4,11 +4,13 @@ import { get, getAll } from "./model.mjs";
 
 export const listAction = async (request, response) => {
   try {
-    const movies = await getAll(new Types.ObjectId("507f1f77bcf86cd799439011"));
+    const movies = await getAll(
+      new Types.ObjectId("507f1f77bcf86cd799439011"),
+      request.query.sort ?? "",
+    );
 
     response.json({
       movies,
-      links: [{ rel: "self", href: request.baseUrl + "/" }],
     });
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -28,7 +30,6 @@ export const detailAction = async (request, response) => {
 
     response.json({
       ...movie,
-      links: [{ rel: "self", href: `${request.baseUrl}/${movie?.id}` }],
     });
   } catch (error) {
     // eslint-disable-next-line no-console

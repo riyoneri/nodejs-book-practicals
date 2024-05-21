@@ -3,10 +3,14 @@ import { Types } from "mongoose";
 import { get, getAll } from "./model.mjs";
 
 export const listAction = async (request, response) => {
+  let sortOrder = 1;
+  request.query.sort === "asc" && (sortOrder = 1);
+  request.query.sort === "desc" && (sortOrder = -1);
+
   try {
     const movies = await getAll(
       new Types.ObjectId("507f1f77bcf86cd799439011"),
-      request.query.sort ?? "",
+      sortOrder,
     );
 
     response.json({

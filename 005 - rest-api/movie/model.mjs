@@ -2,20 +2,41 @@ import mongoose, { Schema, Types } from "mongoose";
 
 mongoose.connect("mongodb://localhost:27017/movie-db");
 
-const Movie = mongoose.model(
-  "Movie",
-  new Schema({
-    title: { type: String, required: true },
-    year: { type: Number, required: true },
-    userId: { type: Types.ObjectId, required: true },
-    public: { type: Boolean, required: true },
-  }),
-);
+const movieSchema = new Schema({
+  title: { type: String, required: true },
+  year: { type: Number, required: true },
+  userId: { type: Types.ObjectId, required: true },
+  public: { type: Boolean, required: true },
+});
 
-export const getAll = async (userId) =>
-  Movie.find({ $or: [{ userId }, { public: true }] });
+movieSchema.methods.format = function () {
+  return this.toJSON({
+    transform: (document, returnValue) => {
+      delete returnValue._id;
 
-export const get = async (movieId, userId) =>
-  Movie.findOne({
+      return { ...returnValue, id: document._id.toString() };
+    },
+  });
+};
+
+const Movie = mongoose.model("Movie", movieSchema);
+
+export const getAll = async (userId, sortOrder) => {
+  const movies = await Movie.find({ $or: [{ userId }, { public: true }] })
+    .sort({
+      _id: sortOrder || 1,
+    })
+    .transform((documents) =>
+      documents.map((singleDocument) => singleDocument.format()),
+    );
+
+  return movies;
+};
+
+export const get = async (movieId, userId) => {
+  const movie = await Movie.findOne({
     $and: [{ _id: movieId }, { $or: [{ public: true }, { userId }] }],
   });
+
+  return movie.format();
+};

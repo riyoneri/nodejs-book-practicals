@@ -1,6 +1,6 @@
 import { Types } from "mongoose";
 
-import { get, getAll } from "./model.mjs";
+import Movie, { get, getAll } from "./model.mjs";
 
 export const listAction = async (request, response) => {
   let sortOrder = 1;
@@ -35,6 +35,25 @@ export const detailAction = async (request, response) => {
     response.json({
       ...movie,
     });
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    response.status(500).send("An error occured");
+  }
+};
+
+export const createAction = async (request, response) => {
+  try {
+    const newMovie = new Movie({
+      title: request.body.title,
+      year: request.body.year,
+      public: +request.body.public === 1 ? true : false,
+      userId: "507f1f77bcf86cd799439011",
+    });
+
+    await newMovie.save();
+
+    response.status(201).json(newMovie.format());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);

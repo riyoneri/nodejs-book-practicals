@@ -80,3 +80,15 @@ export const updateAction = async (request, response) => {
     response.status(500).send("An error occured");
   }
 };
+
+export const deleteAction = async (request, response) => {
+  try {
+    await Movie.findByIdAndDelete(request.params.id);
+
+    response.status(204).json();
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    response.status(500).send("An error occured");
+  }
+};

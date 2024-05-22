@@ -60,3 +60,23 @@ export const createAction = async (request, response) => {
     response.status(500).send("An error occured");
   }
 };
+
+export const updateAction = async (request, response) => {
+  try {
+    const updatedMovie = await Movie.findByIdAndUpdate(
+      request.params.id,
+      {
+        title: request.body.title,
+        year: request.body.year,
+        public: +request.body.public === 1 ? true : false,
+      },
+      { new: true },
+    );
+
+    response.status(201).json(updatedMovie.format());
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.log(error);
+    response.status(500).send("An error occured");
+  }
+};

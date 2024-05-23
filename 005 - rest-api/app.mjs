@@ -3,10 +3,12 @@ import { expressjwt } from "express-jwt";
 import { Types } from "mongoose";
 import morgan from "morgan";
 import { createWriteStream } from "node:fs";
+import swaggerUi from "swagger-ui-express";
 
 import { router as authRouter } from "./auth/index.mjs";
 import User from "./auth/model.mjs";
 import { router as movieRouter } from "./movie/index.mjs";
+import swaggerSpec from "./swagger.mjs";
 
 const app = express();
 const accessLogStream = createWriteStream("access.log", { flags: "a" });
@@ -31,6 +33,8 @@ app.use(
   movieRouter,
 );
 app.use("/auth", authRouter);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use((error, _request, response, _next) => {
   if (error.name === "UnauthorizedError")

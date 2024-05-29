@@ -27,7 +27,7 @@ app.use(
     error.name = "UnauthorizedError";
 
     if (!user) return next(error);
-
+    request.auth = user;
     next();
   },
   movieRouter,

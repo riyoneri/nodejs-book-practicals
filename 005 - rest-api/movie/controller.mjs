@@ -1,5 +1,7 @@
+import { validationResult } from "express-validator";
 import { Types } from "mongoose";
 
+import customValidationResult from "../helpers/custom-validation.mjs";
 import Movie, { get, getAll } from "./model.mjs";
 
 export const listAction = async (request, response) => {
@@ -25,6 +27,12 @@ export const listAction = async (request, response) => {
 
 export const detailAction = async (request, response) => {
   try {
+    const errors = validationResult(request);
+    if (!errors.isEmpty())
+      return response
+        .status(400)
+        .json({ errors: customValidationResult(request) });
+
     const movie = await get(
       request.params.id,
       new Types.ObjectId("507f1f77bcf86cd799439011"),
@@ -44,6 +52,12 @@ export const detailAction = async (request, response) => {
 
 export const createAction = async (request, response) => {
   try {
+    const errors = validationResult(request);
+    if (!errors.isEmpty())
+      return response
+        .status(400)
+        .json({ errors: customValidationResult(request) });
+
     const newMovie = new Movie({
       title: request.body.title,
       year: request.body.year,
@@ -63,6 +77,12 @@ export const createAction = async (request, response) => {
 
 export const updateAction = async (request, response) => {
   try {
+    const errors = validationResult(request);
+    if (!errors.isEmpty())
+      return response
+        .status(400)
+        .json({ errors: customValidationResult(request) });
+
     const updatedMovie = await Movie.findByIdAndUpdate(
       request.params.id,
       {
@@ -83,6 +103,12 @@ export const updateAction = async (request, response) => {
 
 export const deleteAction = async (request, response) => {
   try {
+    const errors = validationResult(request);
+    if (!errors.isEmpty())
+      return response
+        .status(400)
+        .json({ errors: customValidationResult(request) });
+
     await Movie.findByIdAndDelete(request.params.id);
 
     response.status(204).json();

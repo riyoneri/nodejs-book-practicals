@@ -1,10 +1,17 @@
+import { validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import { createHash } from "node:crypto";
 
+import customValidationResult from "../helpers/custom-validation.mjs";
 import User from "./model.mjs";
 
 export const registerAction = async (request, response) => {
   try {
+    const errors = validationResult(request);
+    if (!errors.isEmpty())
+      return response
+        .status(400)
+        .json({ errors: customValidationResult(request) });
     const newUser = new User({
       username: request.body.username,
       password: createHash("md5").update(request.body.password).digest("hex"),

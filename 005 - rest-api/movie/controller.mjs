@@ -67,7 +67,7 @@ export const createAction = async (request, response) => {
 
     await newMovie.save();
 
-    response.status(201).json(newMovie.format());
+    response.status(201).json(newMovie.toJSON());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);
@@ -93,7 +93,7 @@ export const updateAction = async (request, response) => {
       { new: true },
     );
 
-    response.status(201).json(updatedMovie.format());
+    response.status(201).json(updatedMovie.toJSON());
   } catch (error) {
     // eslint-disable-next-line no-console
     console.log(error);

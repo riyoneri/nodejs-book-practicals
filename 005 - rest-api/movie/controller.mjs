@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import { Types } from "mongoose";
 
 import customValidationResult from "../helpers/custom-validation.mjs";
-import Movie, { get, getAll } from "./model.mjs";
+import Movie, { get } from "./model.mjs";
 
 export const listAction = async (request, response) => {
   let sortOrder = 1;
@@ -10,10 +10,15 @@ export const listAction = async (request, response) => {
   request.query.sort === "desc" && (sortOrder = -1);
 
   try {
-    const movies = await getAll(
-      new Types.ObjectId("507f1f77bcf86cd799439011"),
-      sortOrder,
-    );
+    const movies = await Movie.find({
+      $or: [{ userId: request.auth._id }, { public: true }],
+    })
+      .sort({
+        title: sortOrder,
+      })
+      .transform((documents) =>
+        documents.map((singleDocument) => singleDocument.toJSON()),
+      );
 
     response.json({
       movies,

@@ -25,18 +25,6 @@ const Movie = mongoose.model("Movie", movieSchema);
 
 export default Movie;
 
-export const getAll = async (userId, sortOrder) => {
-  const movies = await Movie.find({ $or: [{ userId }, { public: true }] })
-    .sort({
-      title: sortOrder,
-    })
-    .transform((documents) =>
-      documents.map((singleDocument) => singleDocument.toJSON()),
-    );
-
-  return movies;
-};
-
 export const get = async (movieId, userId) => {
   const movie = await Movie.findOne({
     $and: [{ _id: movieId }, { $or: [{ public: true }, { userId }] }],

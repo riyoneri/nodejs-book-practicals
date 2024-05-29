@@ -89,8 +89,13 @@ export const updateAction = async (request, response) => {
         .status(400)
         .json({ errors: customValidationResult(request) });
 
-    const updatedMovie = await Movie.findByIdAndUpdate(
-      request.params.id,
+    const updatedMovie = await Movie.findOneAndUpdate(
+      {
+        $and: [
+          { _id: request.params.id },
+          { $or: [{ public: true }, { userId: request.auth._id }] },
+        ],
+      },
       {
         title: request.body.title,
         year: request.body.year,

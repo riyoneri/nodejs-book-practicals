@@ -104,6 +104,8 @@ export const updateAction = async (request, response) => {
       { new: true },
     );
 
+    if (!updatedMovie) return response.status(404).send("Not Found");
+
     response.status(201).json(updatedMovie.toJSON());
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -120,7 +122,14 @@ export const deleteAction = async (request, response) => {
         .status(400)
         .json({ errors: customValidationResult(request) });
 
-    await Movie.findByIdAndDelete(request.params.id);
+    const deletedMovie = await Movie.findOneAndDelete({
+      $and: [
+        { _id: request.params.id },
+        { $or: [{ public: true }, { userId: request.auth._id }] },
+      ],
+    });
+
+    if (!deletedMovie) return response.status(404).send("Not Found");
 
     response.status(204).json();
   } catch (error) {

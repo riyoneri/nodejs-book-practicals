@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { body, param } from "express-validator";
 
 import {
   createAction,
@@ -62,9 +63,35 @@ router.get("/", listAction);
  *        schema:
  *          $ref: '#/definitions/Movie'
  */
-router.get("/:id", detailAction);
-router.post("/", createAction);
-router.patch("/:id", updateAction);
-router.delete("/:id", deleteAction);
+router.get(
+  "/:id",
+  param("id", "Movie id is misconfigured").isMongoId(),
+  detailAction,
+);
+router.post(
+  "/",
+  [
+    body("title", "Title must be string")
+      .isString()
+      .isLength({ min: 1, max: 20 })
+      .withMessage("Title has to be between 1 and 20"),
+    body("year", "Year is invalid").isInt(),
+    body("public", "Public property is invalid")
+      .isInt()
+      .isIn([0, 1])
+      .withMessage("Public property must be 1 or 0"),
+  ],
+  createAction,
+);
+router.patch(
+  "/:id",
+  param("id", "Movie id is misconfigured").isMongoId(),
+  updateAction,
+);
+router.delete(
+  "/:id",
+  param("id", "Movie id is misconfigured").isMongoId(),
+  deleteAction,
+);
 
 export { router };

@@ -29,7 +29,9 @@ export const loginAction = async (request, response) => {
 
     if (!user) return response.status(401).json("Unauthorized");
 
-    const token = jwt.sign({ id: user.format().id }, "secret", {});
+    const token = jwt.sign({ id: user.format().id }, "secret", {
+      expiresIn: "1h",
+    });
 
     response.json({ token });
   } catch (error) {

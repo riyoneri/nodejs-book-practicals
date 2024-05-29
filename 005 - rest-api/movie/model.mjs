@@ -31,7 +31,7 @@ export const getAll = async (userId, sortOrder) => {
       title: sortOrder,
     })
     .transform((documents) =>
-      documents.map((singleDocument) => singleDocument.format()),
+      documents.map((singleDocument) => singleDocument.toJSON()),
     );
 
   return movies;

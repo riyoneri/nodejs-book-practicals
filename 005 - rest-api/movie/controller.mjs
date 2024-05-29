@@ -62,7 +62,7 @@ export const createAction = async (request, response) => {
       title: request.body.title,
       year: request.body.year,
       public: +request.body.public === 1 ? true : false,
-      userId: "507f1f77bcf86cd799439011",
+      userId: request.auth._id,
     });
 
     await newMovie.save();

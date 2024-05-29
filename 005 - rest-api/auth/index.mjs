@@ -25,6 +25,17 @@ router.post(
   ],
   registerAction,
 );
-router.post("/login", loginAction);
+router.post(
+  "/login",
+  [
+    body("username", "Username is invalid")
+      .notEmpty({ ignore_whitespace: true })
+      .isString(),
+    body("password", "Password is invalid")
+      .notEmpty({ ignore_whitespace: true })
+      .isString(),
+  ],
+  loginAction,
+);
 
 export { router };

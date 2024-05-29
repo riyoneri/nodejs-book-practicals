@@ -29,6 +29,12 @@ export const registerAction = async (request, response) => {
 
 export const loginAction = async (request, response) => {
   try {
+    const errors = validationResult(request);
+    if (!errors.isEmpty())
+      return response
+        .status(400)
+        .json({ errors: customValidationResult(request) });
+
     const user = await User.findOne({
       username: request.body.username,
       password: createHash("md5").update(request.body.password).digest("hex"),

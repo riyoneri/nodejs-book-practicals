@@ -24,11 +24,3 @@ const movieSchema = new Schema(
 const Movie = mongoose.model("Movie", movieSchema);
 
 export default Movie;
-
-export const get = async (movieId, userId) => {
-  const movie = await Movie.findOne({
-    $and: [{ _id: movieId }, { $or: [{ public: true }, { userId }] }],
-  });
-
-  return movie.toJSON();
-};

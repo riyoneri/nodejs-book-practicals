@@ -1,8 +1,7 @@
 import { validationResult } from "express-validator";
-import { Types } from "mongoose";
 
 import customValidationResult from "../helpers/custom-validation.mjs";
-import Movie, { get } from "./model.mjs";
+import Movie from "./model.mjs";
 
 export const listAction = async (request, response) => {
   let sortOrder = 1;
@@ -38,15 +37,17 @@ export const detailAction = async (request, response) => {
         .status(400)
         .json({ errors: customValidationResult(request) });
 
-    const movie = await get(
-      request.params.id,
-      new Types.ObjectId("507f1f77bcf86cd799439011"),
-    );
+    const movie = await Movie.findOne({
+      $and: [
+        { _id: request.params.id },
+        { $or: [{ public: true }, { userId: request.auth._id }] },
+      ],
+    });
 
     if (!movie) return response.status(404).send("Not Found");
 
     response.json({
-      ...movie,
+      ...movie.toJSON(),
     });
   } catch (error) {
     // eslint-disable-next-line no-console

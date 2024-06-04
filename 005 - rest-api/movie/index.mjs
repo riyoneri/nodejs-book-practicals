@@ -74,6 +74,19 @@ router.get(
   param("id", "Movie id is misconfigured").isMongoId(),
   detailAction,
 );
+
+/**
+ * @swagger
+ * /movie:
+ *  post:
+ *    tags:
+ *      - Movies
+ *    description: Create a movie
+ *    requestBody:
+ *      required: true
+ *    content:
+ *      apllication/json:
+ */
 router.post(
   "/",
   [

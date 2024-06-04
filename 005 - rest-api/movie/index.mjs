@@ -38,7 +38,7 @@ const router = Router();
  * /movie:
  *  get:
  *    tags:
- *      - movies
+ *      - Movies
  *    description: Returns all movies
  *    responses:
  *      200:
@@ -47,6 +47,8 @@ const router = Router();
  *          type: array
  *          items:
  *            $ref: '#/definitions/Movie'
+ *      500:
+ *        description: Internal server error
  */
 router.get("/", listAction);
 
@@ -55,13 +57,17 @@ router.get("/", listAction);
  * /movie/{movieId}:
  *  get:
  *    tags:
- *      - movies
- *    description: REturns one movie
+ *      - Movies
+ *    description: Returns one movie
  *    responses:
  *      200:
  *        description: One movie object
  *        schema:
  *          $ref: '#/definitions/Movie'
+ *      400:
+ *        description: Movie id is misconfigured
+ *      500:
+ *        description: Internal server error
  */
 router.get(
   "/:id",

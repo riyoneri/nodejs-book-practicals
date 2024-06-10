@@ -47,6 +47,8 @@ const router = Router();
  *          type: array
  *          items:
  *            $ref: '#/definitions/Movie'
+ *      401:
+ *        description: Unauthorized
  *      500:
  *        description: Internal server error
  */
@@ -66,6 +68,10 @@ router.get("/", listAction);
  *          $ref: '#/definitions/Movie'
  *      400:
  *        description: Movie id is misconfigured
+ *      404:
+ *        description: Movie not found
+ *      401:
+ *        description: Unauthorized
  *      500:
  *        description: Internal server error
  */
@@ -81,11 +87,35 @@ router.get(
  *  post:
  *    tags:
  *      - Movies
- *    description: Create a movie
- *    requestBody:
- *      required: true
- *    content:
- *      apllication/json:
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: body
+ *        name: movie
+ *        description: The movie to create
+ *        schema:
+ *          type: object
+ *          required:
+ *            - title
+ *            - year
+ *            - public
+ *          properties:
+ *            title:
+ *              type: string
+ *              example: Iron Man
+ *            year:
+ *              type: number
+ *              example: 2009
+ *            public:
+ *              type: boolean
+ *              example: false
+ *    responses:
+ *      201:
+ *        description: Movie is created
+ *      401:
+ *        description: Unauthorized
+ *      500:
+ *        description: Internal server error
  */
 router.post(
   "/",
@@ -102,11 +132,64 @@ router.post(
   ],
   createAction,
 );
+
+/**
+ * @swagger
+ * /movie/${movieId}:
+ *  patch:
+ *    tags:
+ *      - Movies
+ *    consumes:
+ *      - application/json
+ *    parameters:
+ *      - in: body
+ *        name: movie
+ *        description: The movie to update
+ *        schema:
+ *          type: object
+ *          properties:
+ *            title:
+ *              type: string
+ *              example: Captain America
+ *            year:
+ *              type: number
+ *              example: 2009
+ *            public:
+ *              type: boolean
+ *              example: true
+ *    responses:
+ *      200:
+ *        description: Movie is updated
+ *      404:
+ *        description: Movie not found
+ *      401:
+ *        description: Unauthorized
+ *      500:
+ *        description: Internal server error
+ */
 router.patch(
   "/:id",
   param("id", "Movie id is misconfigured").isMongoId(),
   updateAction,
 );
+
+/**
+ * @swagger
+ * /movie/${movieId}:
+ *  delete:
+ *    tags:
+ *      - Movies
+ *    description: Delete a movie
+ *    responses:
+ *      204:
+ *        description: Movie is deleted
+ *      404:
+ *        description: Movie not found
+ *      401:
+ *        description: Unauthorized
+ *      500:
+ *        description: Internal server error
+ */
 router.delete(
   "/:id",
   param("id", "Movie id is misconfigured").isMongoId(),

@@ -69,6 +69,13 @@ router.get("/", listAction);
 /**
  * @swagger
  * /movie/{movieId}:
+ *  parameters:
+ *    - in: path
+ *      name: movieId
+ *      required: true
+ *      schema:
+ *        type: string
+ *
  *  get:
  *    security:
  *      - bearerAuth: []
@@ -103,28 +110,26 @@ router.get(
  *      - bearerAuth: []
  *    tags:
  *      - Movies
- *    consumes:
- *      - application/json
- *    parameters:
- *      - in: body
- *        name: movie
- *        description: The movie to create
- *        schema:
- *          type: object
- *          required:
- *            - title
- *            - year
- *            - public
- *          properties:
- *            title:
- *              type: string
- *              example: Iron Man
- *            year:
- *              type: number
- *              example: 2009
- *            public:
- *              type: boolean
- *              example: false
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - title
+ *              - year
+ *              - public
+ *            properties:
+ *              title:
+ *                type: string
+ *                example: Iron Man
+ *              year:
+ *                type: number
+ *                example: 2009
+ *              public:
+ *                type: integer
+ *                example: 1
  *    responses:
  *      201:
  *        description: Movie is created
@@ -152,6 +157,12 @@ router.post(
 /**
  * @swagger
  * /movie/${movieId}:
+ *  parameters:
+ *    - in: path
+ *      name: movieId
+ *      required: true
+ *      schema:
+ *        type: string
  *  patch:
  *    security:
  *      - bearerAuth: []
@@ -194,6 +205,12 @@ router.patch(
 /**
  * @swagger
  * /movie/${movieId}:
+ *  parameters:
+ *    - in: path
+ *      name: movieId
+ *      required: true
+ *      schema:
+ *        type: string
  *  delete:
  *    security:
  *      - bearerAuth: []

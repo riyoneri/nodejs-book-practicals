@@ -18,7 +18,7 @@ const router = Router();
  *    properties:
  *      id:
  *        type: integer
- *        example: 1
+ *        example: 507f1f77bcf86cd799439012
  *      title:
  *        type: string
  *        example: Iron Man
@@ -31,12 +31,24 @@ const router = Router();
  *      user:
  *        type: string
  *        example: "507f1f77bcf86cd799439011"
+ *
+ * components:
+ *  securitySchemes:
+ *    bearerAuth:
+ *      type: http
+ *      scheme: bearer
+ *      bearerFormat: JWT
+ *
+ * security:
+ *  - bearerAuth: []
  */
 
 /**
  * @swagger
  * /movie:
  *  get:
+ *    security:
+ *      - bearerAuth: []
  *    tags:
  *      - Movies
  *    description: Returns all movies
@@ -58,6 +70,8 @@ router.get("/", listAction);
  * @swagger
  * /movie/{movieId}:
  *  get:
+ *    security:
+ *      - bearerAuth: []
  *    tags:
  *      - Movies
  *    description: Returns one movie
@@ -85,6 +99,8 @@ router.get(
  * @swagger
  * /movie:
  *  post:
+ *    security:
+ *      - bearerAuth: []
  *    tags:
  *      - Movies
  *    consumes:
@@ -137,6 +153,8 @@ router.post(
  * @swagger
  * /movie/${movieId}:
  *  patch:
+ *    security:
+ *      - bearerAuth: []
  *    tags:
  *      - Movies
  *    consumes:
@@ -177,6 +195,8 @@ router.patch(
  * @swagger
  * /movie/${movieId}:
  *  delete:
+ *    security:
+ *      - bearerAuth: []
  *    tags:
  *      - Movies
  *    description: Delete a movie

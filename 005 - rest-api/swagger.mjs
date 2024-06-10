@@ -1,6 +1,7 @@
 import swaggerJSDoc from "swagger-jsdoc";
 
 const swaggerDefinition = {
+  openapi: "3.0.0",
   info: {
     title: "Movie Database API",
     version: "1.0.0",
@@ -11,6 +12,6 @@ const swaggerDefinition = {
 };
 const options = {
   swaggerDefinition,
-  apis: ["./movie/index.mjs"],
+  apis: ["./movie/index.mjs", "./auth/index.mjs"],
 };
 export default swaggerJSDoc(options);
